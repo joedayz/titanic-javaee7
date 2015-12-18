@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/titanic">
+    <Manager pathname=""/>
+    <Resource name="BeanManager" auth="Container"
+              type="javax.enterprise.inject.spi.BeanManager"
+              factory="org.jboss.weld.resources.ManagerObjectFactory"/>
+    <ResourceLink global="jdbc/titanic" name="jdbc/titanic" type="com.mysql.jdbc.Driver"/>
+
+</Context>

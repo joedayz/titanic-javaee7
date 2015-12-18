@@ -1,0 +1,22 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        >
+    <cc:interface componentType="asientoButton">
+        <cc:attribute name="value" type="java.lang.String"
+                      shortDescription="Numero del  Asiento" />
+        <cc:attribute name="estado" type="java.lang.String"
+                      shortDescription="0 libre, 1 reservado, 2 pagado, 3 no_disponible" />
+        <cc:attribute name="method" method-signature="void method()"/>
+    </cc:interface>
+    <cc:implementation  >
+        <p:commandButton id="#{cc.clientId}" binding="#{cc.add}" styleClass="#{cc.customStyle}" value="#{cc.value}"
+                         action="#{cc.attrs.method}" style="width: 40px" update=":form"/>
+
+
+    </cc:implementation>
+</ui:component>

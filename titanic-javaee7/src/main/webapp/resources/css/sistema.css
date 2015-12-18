@@ -1,0 +1,70 @@
+@CHARSET "utf-8";
+ body{margin:0;font:normal 12px/12px Arial;}
+ header{padding:5px 0px;margin-bottom:20px;height:30px;background-color: #545454;color:#FFFFFF;box-shadow:0px 2px 2px #ccc;}
+ header > div{margin-left:8px}
+ #contenedor {padding: 0px 8px}
+footer {padding: 0px 8px; margin-bottom: 10px}
+
+/*Login*/
+h1{font-size: 24px;font-weight: 500;padding:0px; margin:0px;color:#2779AA}
+#login-dialog{width:290px;margin:auto;margin-top:150px}
+.panel-login{background-color: #F2F2F2;border-radius:7px;
+			border:solid 1px #ccc;margin-top:12px;padding:10px}
+			
+.lblIzq{width: 150px;height:45px}
+.ajax-status{position: fixed;top:55px;right:10px}
+.no-border tbody tr td{border:none}
+
+.ui-selectmanycheckbox td{border-width: 0px !important;padding:3px !important}
+.ui-panelgrid tr{height:45px}
+.producto-tabla input{width:99%}
+
+/*Customizar tabs*/
+.ui-tabs .ui-tabs-panel{padding:0.5em 0.2em !important;}
+.ui-tabs{padding:0 !important;}
+.ui-tabs .ui-tabs-nav{margin:-1px !important;}
+.ui-tabs.ui-tabs-top > .ui-tabs-nav{padding:0px !important;}
+
+.menu-sistema{border:0px !important; padding:0px !important; background: none !important;}
+.menu-sistema .ui-menu-parent > a .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
+    color: #ffffff !important;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+	background: none !important;
+}
+.ui-state-disabled{
+	opacity : .80 !important;
+}
+.botonReservado .ui-button-text {
+    background-color: lightgreen;
+}
+.botonReservado .ui-button-text-only .ui-button-text {
+    color: white;
+}
+
+.botonPagado .ui-button-text {
+    background-color: grey;
+    color: #ffffff;
+}
+.botonPagado .ui-button-text-only .ui-button-text {
+    color: #ffffff;
+}
+
+.botonNoDisponible .ui-button-text {
+    background-color: red;
+    color: #ffffff;
+}
+.botonNoDisponible .ui-button-text-only .ui-button-text {
+    color: #ffffff;;
+}
+
+.viewSeatsBtn {
+    font-weight: 700;
+    line-height: 1.2;
+    background-color: #e24648;
+    margin-top: 20px;
+}
+
+.alignTop {
+    vertical-align: top;
+}

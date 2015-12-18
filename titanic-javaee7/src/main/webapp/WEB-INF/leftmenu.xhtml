@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ps="http://primefaces.org/sentinel"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="layout-menubar" class="Unselectable fontRegular">
+		<div class="layout-menubarinner-box" id="buttonArea">
+			<a href="#" id="layout-menubar-resize" class="BordRad3"
+				title="Menu Resize"><i class="icon-th-list-2"></i></a> <a href="#"
+				id="layout-menubar-resize2" class="BordRad3" title="Open Menu"><i
+				class="icon-menu"></i></a>
+		</div>
+
+		<div class="layout-menubarinner-box" id="searchArea">
+			<i class="icon-search floatLeft gray"></i> <input type="text"
+				class="layout-menubar-search floatLeft Animated05"
+				placeholder="Search Here" />
+		</div>
+
+		<ps:menu id="sm_leftmenu">
+			<p:menuitem id="sm_dashboard" value="Dashboard"
+				icon="icon-home-outline" outcome="/inicio"
+				containerStyleClass="layout-menubar-active" />
+			<p:submenu id="sm_sentineltheme" label="Mantenimientos"
+				icon="icon-gauge">
+				<p:menuitem id="sm_clientes" value="Clientes" icon="icon-users"
+					outcome="/cliente/buscarCliente" />
+				<p:menuitem id="sm_usuarios" value="Usuarios" icon="icon-user-add"
+					outcome="/usuario/buscarUsuario" />
+
+				<p:menuitem id="sm_terminal" value="Terminal" icon="icon-home-outline"
+					outcome="/terminal/buscarTerminal" />
+				<p:menuitem id="sm_bus" value="Bus" icon="icon-truck"
+					outcome="/bus/buscarBus" />
+				<p:menuitem id="sm_recorrido" value="Recorrido"
+					icon="icon-road" outcome="/recorrido/buscarRecorrido" />
+
+
+			</p:submenu>
+
+
+		</ps:menu>
+
+	</div>
+
+</ui:composition>

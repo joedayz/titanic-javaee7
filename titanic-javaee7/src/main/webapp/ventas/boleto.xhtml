@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Boleto Vendido</title>
+	<h:outputStylesheet library="css" name="printer_div.css" />
+</h:head>
+
+
+<h:body>
+
+
+	<f:metadata>
+		<o:viewParam name="boleto" value="boletoController.boleto" />
+	</f:metadata>
+
+	<div class="tabla" style="width: 100%;">
+		<div class="fila">
+			<div class="col" style="width: 5px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 500px;">VENDEDOR</div>
+			<div class="col" style="width: 45px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 150px;">
+				<h:outputText value="#{boletoController.boleto.usuario.dni}" />
+			</div>
+		</div>
+		<div class="fila" style="height: 3px;"></div>
+		<div class="fila">
+			<div class="col" style="width: 5px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 500px;">
+				<h:outputText
+					value="#{boletoController.boleto.cliente.nombreCliente}" />
+			</div>
+			<div class="col" style="width: 45px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 20px;">
+				<h:outputText value="#{boletoController.boleto.numeroBoleto}" />
+			</div>
+		</div>
+		<div class="fila" style="height: 18px;"></div>
+		<div class="fila">
+			<div class="col" style="width: 5px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 150px;">
+				<h:outputText value="#{boletoController.boleto.fechaVenta}"
+					pattern="dd/MM/yyyy" />
+			</div>
+			<div class="col" style="width: 20px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 200px;">
+				<h:outputText
+					value="#{boletoController.boleto.cliente.numeroDocumento}" />
+			</div>
+		</div>
+		<div class="fila" style="height: 3px;"></div>
+		<div class="fila">
+			<div class="col" style="width: 75px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 500px;">
+				<h:outputText value="#{boletoController.numeroEnLetras}" />
+			</div>
+		</div>
+		<div class="fila" style="height: 10px;"></div>
+		<div class="fila">
+			<div class="col" style="width: 580px;">
+				<h:outputText value="&#160;" />
+			</div>
+			<div class="col" style="width: 200px;">
+				<h:outputText value="#{boletoController.boleto.precio}" />
+			</div>
+		</div>
+		<div class="fila" style="height: 20px;"></div>
+		<div class="fila">
+			<div class="col" style="width: 490px;"><h:outputText value="&#160;" /></div>
+			<div class="col" style="width: 50px;"><h:outputText value="#{boletoController.dia}" /></div>
+			<div class="col" style="width: 20px;"><h:outputText value="&#160;" /></div>
+			<div class="col" style="width: 50px;"><h:outputText value="#{boletoController.mes}" /></div>
+			<div class="col" style="width: 30px;"><h:outputText value="&#160;" /></div>
+			<div class="col" style="width: 50px;"><h:outputText value="#{boletoController.anho}" /></div>
+		</div>
+	</div>
+	<script>
+		jsPrintSetup.setPrinter('EPSON FX-890');
+		// set portrait orientation
+		jsPrintSetup
+				.setOption('orientation', jsPrintSetup.kPortraitOrientation);
+
+		// set top margins in millimeters
+		jsPrintSetup.setOption('marginTop', 22);
+		jsPrintSetup.setOption('marginBottom', 1);
+		jsPrintSetup.setOption('marginLeft', 26);
+		jsPrintSetup.setOption('marginRight', 1);
+
+		jsPrintSetup.clearSilentPrint();
+		// Suppress print dialog (for this context only)
+		jsPrintSetup.setOption('printSilent', 1);
+		// Do Print 
+		// When print is submitted it is executed asynchronous and
+		// script flow continues after print independently of completetion of print process! 
+		jsPrintSetup.print();
+		// next commands
+
+		var ventana = window.self;
+		ventana.opener = window.self;
+		setTimeout("window.close()", 100);
+	</script>
+
+
+
+</h:body>
+
+
+</html>

@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+        <h:form id="form">
+
+            <p:growl id="msgs" widgetVar="wmsg" showDetail="true"/>
+
+            <p:messages autoUpdate="true"/>
+
+            <div class="Container100 ui-fluid">
+                <div class="ContainerIndent">
+                    <p:panel>
+
+                        <p:toolbar style="margin-top:20px">
+                            <f:facet name="left">
+                                <p:outputLabel for="fechaPartida" value="Fecha Partida:"/>
+                                <p:calendar id="fechaPartida" value="#{seleccionarBusBean.fechaVenta}" showOn="button"
+                                            update=":form">
+
+
+                                    <p:ajax event="dateSelect" listener="#{seleccionarBusBean.onFechaSeleccionada}"
+                                            update="msgs,:form"/>
+                                </p:calendar>
+                            </f:facet>
+
+                        </p:toolbar>
+
+                    </p:panel>
+                </div>
+            </div>
+
+
+            <f:metadata>
+                <f:event listener="#{seleccionarBusBean.inicializar}"
+                         type="preRenderView"/>
+            </f:metadata>
+
+
+            <div class="Container100 ui-fluid">
+                <div class="ContainerIndent">
+
+
+                    <p:panel>
+                        <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Buses disponibles</div>
+                        <div class="Separator"></div>
+
+                        <p:dataTable id="programacionesTable"
+                                     value="#{seleccionarBusBean.programaciones}" var="programacion"
+                                     style="margin-top:20px"
+                                     emptyMessage="No se encontraron programaciones para esta fecha de Venta" rows="20"
+                                     paginator="true" paginatorAlwaysVisible="false"
+                                     paginatorPosition="bottom">
+
+                            <p:column headerText="Id" style="text-align:center;width:100px">
+                                <h:outputLabel value="#{programacion.ideProgramacion}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Ruta" style="text-align:center;width:150px">
+                                <h:outputLabel value="#{programacion.ruta.ruta}"/>
+                            </p:column>
+
+                            <p:column headerText="Bus" style="text-align:center;width:150px">
+                                <h:outputLabel value="#{programacion.bus.descripcionBus}"/>
+                            </p:column>
+
+                            <p:column headerText="Fecha y Hora Salida">
+                                <h:outputLabel value="#{programacion.fechaSalida}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha y Hora Llegada">
+                                <h:outputLabel value="#{programacion.fechaEstLlegada}"/>
+                            </p:column>
+
+                            <p:column headerText="Estado">
+                                <h:outputLabel value="#{programacion.tipoProgramacion}"/>
+                            </p:column>
+
+                            <p:column style="text-align:center;width:100px">
+                                <p:button value="Asientos" outcome="/ventas/seleccionarAsientos">
+                                    <f:param name="programacion" value="#{programacion.ideProgramacion}"/>
+                                </p:button>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+
+                    </p:panel>
+                </div>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+
+</ui:composition>

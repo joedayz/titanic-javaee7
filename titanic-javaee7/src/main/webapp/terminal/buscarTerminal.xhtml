@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Buscar Terminal"
+                                             action="#{terminalBean.buscarTerminalesFiltros}" update="terminalesTable"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Nueva Terminal" outcome="/terminal/registraTerminal"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Busqueda terminales</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="formBusqueda">
+
+                        <p:messages autoUpdate="true" closable="true"/>
+
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="2" id="panelForm"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid"
+                                     styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText id="nombre" size="60"
+                                         value="#{terminalBean.filtros.nombre}" />
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+                </p:panel>
+
+
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Terminales Encontrados</div>
+                    <div class="Separator"></div>
+
+                    <p:dataTable id="terminalesTable" var="terminal" value="#{terminalBean.terminalesFiltrados}"
+                                 reflow="true"
+                                 emptyMessage="No se encontraron terminales para su busqueda" rows="20"
+                                 paginator="true" paginatorAlwaysVisible="false"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Code" >
+                            <h:outputLabel value="#{terminal.codeTerminal}" />
+                        </p:column>
+
+
+                        <p:column headerText="Nombre" >
+                            <h:outputLabel value="#{terminal.nombreTerminal}" />
+                        </p:column>
+
+                        <p:column headerText="Direccion" >
+                            <h:outputLabel value="#{terminal.direccionTerminal}" />
+                        </p:column>
+
+                        <p:column headerText="Telefonos" >
+                            <h:outputLabel value="#{terminal.telefonosTerminal}" />
+                        </p:column>
+
+
+                        <p:column style="text-align:center;width:100px">
+                            <p:button title="Editar" icon="ui-icon-pencil" outcome="/terminal/registraTerminal">
+                                <f:param name="terminal" value="#{terminal.ideTerminal}" />
+                            </p:button>
+                            <p:commandButton  icon="ui-icon-trash" action="#{terminalBean.eliminarTerminal}" update="terminalesTable">
+                                <p:confirm header="Eliminar Terminal"
+                                           message="Esta seguro de eliminar la terminal"
+                                           icon="ui-icon-alert"/>
+
+                                <f:setPropertyActionListener
+                                        target="#{terminalBean.terminalSeleccionado}" value="#{terminal}" />
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,66 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+        
+    <beans:bean id="appUserDetailsService" class="com.titanic.ventapasajes.security.AppUserDetailsService" />
+   
+   <beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+	    <beans:property name="accessDeniedHandler" ref="jsfAccessDeniedHandler"/>
+	    <beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+	</beans:bean>
+
+	<beans:bean id="jsfAccessDeniedHandler" class="com.titanic.ventapasajes.security.util.JsfAccessDeniedHandler">
+	    <beans:property name="loginPath" value="/excepciones/accesoDenegado.xhtml" />
+	    <beans:property name="contextRelative" value="true" />
+	</beans:bean>
+
+	<beans:bean id="authenticationEntryPoint" class="com.titanic.ventapasajes.security.util.JsfLoginUrlAuthenticationEntryPoint">
+	    <beans:property name="loginFormUrl" value="/login.xhtml"/>
+	    <beans:property name="redirectStrategy" ref="jsfRedirectStrategy" />
+	</beans:bean>
+
+	<beans:bean id="jsfRedirectStrategy" class="com.titanic.ventapasajes.security.util.JsfRedirectStrategy"/>
+
+   
+   <http pattern="/login.xhtml" security="none" />
+   <http pattern="/excepciones/error.xhtml" security="none" />
+   <http pattern="/javax.faces.resource/**" security="none" />
+
+
+
+	<http auto-config="false" use-expressions="true">
+
+		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	
+		<intercept-url pattern="/dashboard.xhtml" access="isAuthenticated()" />
+		<intercept-url pattern="/excepciones/accesoDenegado.xhtml" access="isAuthenticated()" />
+		<intercept-url pattern="/ventas/**" access="hasAnyRole('VENDEDORES', 'AUXILIARES', 'ADMINISTRADORES')" />
+        <intercept-url pattern="/programacion/**" access="hasAnyRole('VENDEDORES', 'AUXILIARES', 'ADMINISTRADORES')" />
+		<intercept-url pattern="/cliente/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/usuario/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/bus/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/terminal/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/recorrido/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/reportes/**" access="hasAnyRole('VENDEDORES','ADMINISTRADORES')" />
+		<intercept-url pattern="/**" access="hasAnyRole('VENDEDORES','ADMINISTRADORES')" />
+		
+		<form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?invalid=true"
+					default-target-url="/" always-use-default-target="true"
+				authentication-details-source-ref="customWebAuthenticationDetailsSource"/>
+		<logout logout-url="/j_spring_security_logout" invalidate-session="true"/>
+	</http>
+
+
+	<beans:bean id="customWebAuthenticationDetailsSource" class="com.titanic.ventapasajes.security.CustomWebAuthenticationDetailsSource"/>
+
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="appUserDetailsService">
+		</authentication-provider>
+	</authentication-manager>
+           
+</beans:beans>

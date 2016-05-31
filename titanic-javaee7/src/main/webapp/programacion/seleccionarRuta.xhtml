@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Ruta</title>
+    <style type="text/css">
+        .ui-widget {
+            font-size: 80%;
+
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:dataTable var="ruta" value="#{recorridoBean.recorridosFiltrados}">
+            <p:column headerText="Id">
+                <h:outputText value="#{ruta.ideRecorrido}" />
+            </p:column>
+
+            <p:column headerText="Origen">
+                <h:outputText value="#{ruta.origen.nombreTerminal}" />
+            </p:column>
+
+            <p:column headerText="Destino">
+                <h:outputText value="#{ruta.destino.nombreTerminal}" />
+            </p:column>
+
+            <p:column headerText="Seleccione Ruta">
+                <p:commandButton icon="ui-icon-search" actionListener="#{recorridoBean.selectRecorridoFromDialog(ruta)}" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+
+</html>

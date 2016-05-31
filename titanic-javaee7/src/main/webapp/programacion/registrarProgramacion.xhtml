@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Programación"
+                                             action="#{registroProgramacionBean.registrarProgramacion}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Programación" outcome="/programacion/buscarProgramacion"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="programacion" value="#{registroProgramacionBean.programacion}"/>
+            <f:event listener="#{registroProgramacionBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroProgramacionBean.editando ? 'Editando Programación' :
+                            'Registrar Nueva Programación'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form>
+
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+
+                            <p:inputText id="ruta" value="#{registroProgramacionBean.programacion.ruta.ruta}" size="30" readonly="true"/>
+                            <p:commandButton value="Ruta" icon="ui-icon-extlink"
+                                             actionListener="#{registroProgramacionBean.seleccionarRuta}">
+                                <p:ajax event="dialogReturn" listener="#{registroProgramacionBean.onRutaSeleccionada}"
+                                        update="ruta"/>
+
+                            </p:commandButton>
+
+
+                            <p:inputText id="bus" value="#{registroProgramacionBean.programacion.bus.descripcionBus}" size="30" readonly="true"/>
+                            <p:commandButton value="Bus" icon="ui-icon-extlink"
+                                             actionListener="#{registroProgramacionBean.seleccionarBus}">
+                                <p:ajax event="dialogReturn" listener="#{registroProgramacionBean.onBusSeleccionado}"
+                                        update="bus"/>
+
+                            </p:commandButton>
+
+
+                            <p:outputLabel value="TipoProgramacion" for="tipoProgramacion" />
+
+                            <p:selectOneRadio id="tipoProgramacion" layout="responsive"  columns="3"
+                                              value="#{registroProgramacionBean.programacion.tipoProgramacion}">
+                                <f:selectItems value="#{registroProgramacionBean.tipoProgramacion}" var="sexo"
+                                               itemValue="#{tipoProgramacion}"
+                                               itemLabel="#{tipoProgramacion.descripcion}"/>
+
+                            </p:selectOneRadio>
+
+
+                            <p:outputLabel value=""/>
+                            <p:separator/>
+
+
+                            <p:outputLabel value="Fecha Salida" for="fechaProgramacion" />
+                            <p:calendar id="fechaProgramacion" value="#{registroProgramacionBean.programacion.fechaSalida}"
+                                        showOn="button" pattern="dd/MM/yyyy HH:mm"
+                            />
+
+
+
+                            <p:outputLabel value="Fecha Est. Llegada" for="fechaEstLlegada" />
+                            <p:calendar id="fechaEstLlegada" value="#{registroProgramacionBean.programacion.fechaEstLlegada}"
+                                        showOn="button" pattern="dd/MM/yyyy HH:mm"
+                            />
+
+
+
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+
+
+</ui:composition>

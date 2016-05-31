@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Buscar Bus"
+                                             action="#{busBean.buscarBusFiltros}" update="busTable"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Nuevo Bus" outcome="/bus/registrarBus"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Busqueda buses</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="formBusqueda">
+
+                        <p:messages autoUpdate="true" closable="true"/>
+
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="2" id="panelForm"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid"
+                                     styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Placa" for="placa" />
+                            <p:inputText id="placa"
+                                         value="#{busBean.filtros.placa}" />
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+                </p:panel>
+
+
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Buses Encontrados</div>
+                    <div class="Separator"></div>
+
+                    <p:dataTable id="busTable" var="bus" value="#{busBean.busesFiltrados}"
+                                 reflow="true"
+                                 emptyMessage="No se encontraron buses para su busqueda" rows="20"
+                                 paginator="true" paginatorAlwaysVisible="false"
+                                 paginatorPosition="bottom">
+
+
+
+                        <p:column headerText="Placa">
+                            <h:outputLabel value="#{bus.placa}" />
+                        </p:column>
+
+                        <p:column headerText="Descripción">
+                            <h:outputLabel value="#{bus.descripcionBus}" />
+                        </p:column>
+
+                        <p:column headerText="Numero Plantas">
+                            <h:outputLabel value="#{bus.tipoPlanta.descripcion}" />
+                        </p:column>
+
+                        <p:column style="text-align:center;width:100px">
+                            <p:button title="Editar" icon="ui-icon-pencil"
+                                      outcome="/bus/registrarBus">
+                                <f:param name="bus" value="#{bus.ideBus}" />
+                            </p:button>
+
+
+                            <p:commandButton  icon="ui-icon-trash" action="#{busBean.eliminarBus}" update="busTable">
+                                <p:confirm header="Eliminar Bus"
+                                           message="Esta seguro de eliminar el bus"
+                                           icon="ui-icon-alert"/>
+
+                                <f:setPropertyActionListener
+                                        target="#{busBean.busSeleccionado}" value="#{bus}" />
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

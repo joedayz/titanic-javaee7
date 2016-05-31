@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Recorrido"
+                                             action="#{registroRecorridoBean.registrarRecorrido}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Recorrido" outcome="/recorrido/buscarRecorrido"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="recorrido" value="#{registroRecorridoBean.recorrido}"/>
+            <f:event listener="#{registroRecorridoBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroRecorridoBean.editando ? 'Editando Recorrido' :
+                            'Registrar Nuevo Recorrido'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="frmRegistro">
+
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Terminal Origen" for="terminalOrigen"/>
+                            <p:selectOneMenu id="terminalOrigen"
+                                             value="#{registroRecorridoBean.recorrido.origen}">
+                                <f:selectItems value="#{registroRecorridoBean.terminales}" var="terminal"
+                                               itemValue="#{terminal}"
+                                               itemLabel="#{terminal.nombreTerminal}"/>
+
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Terminal Destino" for="terminalDestino"/>
+                            <p:selectOneMenu id="terminalDestino"
+                                             value="#{registroRecorridoBean.recorrido.destino}">
+                                <f:selectItems value="#{registroRecorridoBean.terminales}" var="terminalDestino"
+                                               itemValue="#{terminalDestino}"
+                                               itemLabel="#{terminalDestino.nombreTerminal}"/>
+
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Ruta" for="ruta"/>
+                            <p:selectOneMenu id="ruta"
+                                             value="#{registroRecorridoBean.recorrido.ruta}">
+                                <f:selectItems value="#{registroRecorridoBean.rutas}" var="ruta"
+                                               itemValue="#{ruta.code.concat('|').concat(ruta.info)}"
+                                               itemLabel="#{ruta.info}"/>
+
+                            </p:selectOneMenu>
+
+
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+
+                    <h:form>
+
+                        <p:contextMenu for="precios" widgetVar="cMenu">
+                            <p:menuitem value="Editar Precio" icon="ui-icon-search"
+                                        onclick="PF('cellPrecios').showCellEditor();return false;"/>
+                            <p:menuitem value="Ocultar Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>
+                        </p:contextMenu>
+
+
+                        <p:dataTable id="precios" var="precio" value="#{registroRecorridoBean.recorrido.precios}"
+                                     editable="true" editMode="cell" widgetVar="cellPrecios">
+                            <f:facet name="header">
+                                Precios
+                            </f:facet>
+
+                            <p:ajax event="cellEdit" listener="#{registroRecorridoBean.onCellEdit}" update="precios"/>
+
+
+                            <p:column headerText="Tipo Pasaje" style="text-align: center; ">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{precio.tipoPasaje}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{precio.tipoPasaje}"
+                                                                       maxlength="50"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Calidad">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{precio.tipoAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{precio.tipoAsiento}">
+                                            <f:selectItems value="#{registroRecorridoBean.tiposAsientos}" var="calidad"
+                                                           itemLabel="#{calidad}" itemValue="#{calidad}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Precio" style="text-align: center; ">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{precio.precio}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{precio.precio}"
+                                                                       maxlength="50"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column style="text-align:center;width:100px">
+                                <p:commandButton title="Eliminar" icon="ui-icon-trash"
+                                                 action="#{registroRecorridoBean.eliminarDestino}" update="precios"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

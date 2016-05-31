@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Buscar Conductor"
+                                             action="#{conductorBean.buscarConductoresFiltrados}" update="conductoresTable"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Nuevo Conductor" outcome="/conductor/registrarConductor"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Busqueda conductores</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="formBusqueda">
+
+                        <p:messages autoUpdate="true" closable="true"/>
+
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="2" id="panelForm"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid"
+                                     styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Dni" for="numeroDocumento"/>
+                            <p:inputText id="numeroDocumento" size="8"
+                                         value="#{conductorBean.filtros.numeroDocumento}"/>
+
+
+                            <p:outputLabel value="Nombre" for="nombre"/>
+                            <p:inputText id="nombre" size="60"
+                                         value="#{conductorBean.filtros.nombre}"/>
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+                </p:panel>
+
+
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Conductores Encontrados</div>
+                    <div class="Separator"></div>
+
+                    <p:dataTable id="conductoresTable" var="conductor" value="#{conductorBean.conductoresFiltrados}"
+                                 reflow="true"
+                                 emptyMessage="No se encontraron conductores para su busqueda" rows="20"
+                                 paginator="true" paginatorAlwaysVisible="false"
+                                 paginatorPosition="bottom">
+
+
+
+                        <p:column headerText="Nombre">
+                            <h:outputLabel value="#{conductor.nombreConductor}"/>
+                        </p:column>
+
+
+                        <p:column headerText="DNI">
+                            <h:outputLabel value="#{conductor.numeroDocumento}"/>
+                        </p:column>
+
+                        <p:column headerText="Licencia">
+                            <h:outputLabel value="#{conductor.numeroLicencia}"/>
+                        </p:column>
+
+                        <p:column headerText="Vigente">
+                            <h:outputLabel value="#{conductor.estado?'Vigente':'Vencido'}"/>
+                        </p:column>
+
+
+
+                        <p:column style="text-align:center;width:100px">
+                            <p:button title="Editar" icon="ui-icon-pencil" outcome="/conductor/registrarConductor">
+                                <f:param name="conductor" value="#{conductor.ideConductor}"/>
+                            </p:button>
+
+                            <p:commandButton icon="ui-icon-trash" action="#{conductorBean.eliminarConductor}"
+                                             update="conductoresTable">
+                                <p:confirm header="Eliminar Conductor"
+                                           message="Esta seguro de eliminar el conductor"
+                                           icon="ui-icon-alert"/>
+                                <f:setPropertyActionListener
+                                        target="#{conductorBean.conductorSeleccionado}" value="#{conductor}"/>
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

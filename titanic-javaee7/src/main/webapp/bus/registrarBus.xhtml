@@ -1,0 +1,471 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Bus"
+                                             action="#{registroBusBean.registrarBus}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Bus" outcome="/bus/buscarBus"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="bus" value="#{registroBusBean.bus}"/>
+            <f:event listener="#{registroBusBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroBusBean.editando ? 'Editando Bus' :
+                            'Registrar Nuevo Bus'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="FrmBus">
+
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Nombre" for="nombre"/>
+                            <p:inputText id="nombre" maxlength="255"
+                                         value="#{registroBusBean.bus.descripcionBus}"/>
+
+
+                            <p:outputLabel value="Aire Acondicionado?: "/>
+                            <p:selectBooleanCheckbox value="#{registroBusBean.bus.conAireAcondicionado}"/>
+
+
+                            <p:outputLabel value="Placa: " for="placa"/>
+                            <p:inputText id="placa" maxlength="10"
+                                         value="#{registroBusBean.bus.placa}"/>
+
+                            <p:outputLabel value="Numero Motor: " for="numeroMotor"/>
+                            <p:inputText id="numeroMotor" maxlength="50"
+                                         value="#{registroBusBean.bus.numeroMotor}"/>
+
+
+                            <p:outputLabel value="Plantas" for="plantas"/>
+                            <p:selectOneMenu id="plantas"
+                                             value="#{registroBusBean.bus.tipoPlanta}">
+                                <f:selectItems value="#{registroBusBean.tiposPlantas}" var="tipoPlanta"
+                                               itemValue="#{tipoPlanta}"
+                                               itemLabel="#{tipoPlanta.descripcion}"/>
+
+
+                            </p:selectOneMenu>
+
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <h:form id="FrmPrimerPiso">
+                <p:panel id="panelPrimerPiso">
+
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Primer Piso
+                    </div>
+                    <div class="Separator"></div>
+
+
+
+
+                        <p:panelGrid columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Asiento 1" for="asiento1"/>
+                            <p:inputText id="asiento1" maxlength="50"
+                                         value="#{registroBusBean.asiento1}"/>
+
+                            <p:outputLabel value="Tipo Asiento 1" for="tipoAsiento1"/>
+                            <p:selectOneMenu id="tipoAsiento1"
+                                             value="#{registroBusBean.tipoAsiento1}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 2" for="asiento2"/>
+                            <p:inputText id="asiento2" maxlength="50"
+                                         value="#{registroBusBean.asiento2}"/>
+
+                            <p:outputLabel value="Tipo Asiento 2" for="tipoAsiento2"/>
+                            <p:selectOneMenu id="tipoAsiento2"
+                                             value="#{registroBusBean.tipoAsiento2}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 3" for="asiento3"/>
+                            <p:inputText id="asiento3" maxlength="50"
+                                         value="#{registroBusBean.asiento3}"/>
+
+                            <p:outputLabel value="Tipo Asiento 3" for="tipoAsiento3"/>
+                            <p:selectOneMenu id="tipoAsiento3"
+                                             value="#{registroBusBean.tipoAsiento3}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 4" for="asiento4"/>
+                            <p:inputText id="asiento4" maxlength="50"
+                                         value="#{registroBusBean.asiento4}"/>
+
+                            <p:outputLabel value="Tipo Asiento 4" for="tipoAsiento4"/>
+                            <p:selectOneMenu id="tipoAsiento4"
+                                             value="#{registroBusBean.tipoAsiento4}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 5" for="asiento5"/>
+                            <p:inputText id="asiento5" maxlength="50"
+                                         value="#{registroBusBean.asiento5}"/>
+
+                            <p:outputLabel value="Tipo Asiento 5" for="tipoAsiento5"/>
+                            <p:selectOneMenu id="tipoAsiento5"
+                                             value="#{registroBusBean.tipoAsiento5}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton value="Añadir Fila" action="#{registroBusBean.agregarFilaInferior}"
+                                             update="primerPiso"/>
+                            <p:outputLabel value=""/>
+                            <p:commandButton value="Limpiar " update="FrmPrimerPiso" process="@this"
+                                             actionListener="#{registroBusBean.reset}"/>
+
+                        </p:panelGrid>
+
+
+
+                        <div class="Separator"></div>
+
+                        <p:dataTable id="primerPiso" var="fila" value="#{registroBusBean.filasInferiores}"
+                                     reflow="true"
+                                     emptyMessage="No se encontraron filas para el primer piso" rows="20"
+                                     editable="true"
+
+                        >
+
+                            <p:ajax event="rowEdit" listener="#{registroBusBean.onEdit}" update="primerPiso"/>
+                            <p:ajax event="rowEditCancel" listener="#{registroBusBean.onCancel}"
+                                    update="primerPiso"/>
+
+                            <p:column headerText="C1" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[0].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[0].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C2" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[1].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[1].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C3" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[2].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[2].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C4" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[3].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[3].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C5" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[4].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[4].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Opciones">
+                                <p:rowEditor/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+
+
+
+                </p:panel>
+                </h:form>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <h:form id="FrmSegundoPiso">
+
+                <p:panel id="panelSegundoPiso" >
+
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Segundo Piso
+                    </div>
+                    <div class="Separator"></div>
+
+
+
+                        <p:panelGrid columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Asiento 1" for="asiento11"/>
+                            <p:inputText id="asiento11" maxlength="50"
+                                         value="#{registroBusBean.asiento11}"/>
+
+                            <p:outputLabel value="Tipo Asiento 1" for="tipoAsiento11"/>
+                            <p:selectOneMenu id="tipoAsiento11"
+                                             value="#{registroBusBean.tipoAsiento11}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 2" for="asiento22"/>
+                            <p:inputText id="asiento22" maxlength="50"
+                                         value="#{registroBusBean.asiento22}"/>
+
+                            <p:outputLabel value="Tipo Asiento 2" for="tipoAsiento22"/>
+                            <p:selectOneMenu id="tipoAsiento22"
+                                             value="#{registroBusBean.tipoAsiento22}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 3" for="asiento33"/>
+                            <p:inputText id="asiento33" maxlength="50"
+                                         value="#{registroBusBean.asiento33}"/>
+
+                            <p:outputLabel value="Tipo Asiento 3" for="tipoAsiento33"/>
+                            <p:selectOneMenu id="tipoAsiento33"
+                                             value="#{registroBusBean.tipoAsiento33}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 4" for="asiento44"/>
+                            <p:inputText id="asiento44" maxlength="50"
+                                         value="#{registroBusBean.asiento44}"/>
+
+                            <p:outputLabel value="Tipo Asiento 4" for="tipoAsiento44"/>
+                            <p:selectOneMenu id="tipoAsiento44"
+                                             value="#{registroBusBean.tipoAsiento44}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Asiento 5" for="asiento55"/>
+                            <p:inputText id="asiento55" maxlength="50"
+                                         value="#{registroBusBean.asiento55}"/>
+
+                            <p:outputLabel value="Tipo Asiento 5" for="tipoAsiento55"/>
+                            <p:selectOneMenu id="tipoAsiento55"
+                                             value="#{registroBusBean.tipoAsiento55}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--"/>
+                                <f:selectItems value="#{registroBusBean.tipoAsientos}" var="tipoAsiento"
+                                               itemValue="#{tipoAsiento}"
+                                               itemLabel="#{tipoAsiento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:commandButton value="Añadir Fila" action="#{registroBusBean.agregarFilaSuperior}"
+                                             update="segundoPiso"/>
+
+                            <p:outputLabel value=""/>
+                            <p:commandButton value="Limpiar " update="FrmSegundoPiso" process="@this"
+                                             actionListener="#{registroBusBean.reset2}"/>
+
+
+                        </p:panelGrid>
+
+
+                        <div class="Separator"></div>
+
+                        <p:dataTable id="segundoPiso" var="fila" value="#{registroBusBean.filasSuperiores}"
+                                     reflow="true"
+                                     emptyMessage="No se encontraron filas para el primer piso" rows="20"
+                                     editable="true"
+
+                        >
+
+                            <p:ajax event="rowEdit" listener="#{registroBusBean.onEdit2}" update="segundoPiso"/>
+                            <p:ajax event="rowEditCancel" listener="#{registroBusBean.onCancel2}"
+                                    update="segundoPiso"/>
+
+                            <p:column headerText="C1" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[0].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[0].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C2" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[1].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[1].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C3" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[2].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[2].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C4" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[3].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[3].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="C5" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText
+                                            value="#{fila.asientos[4].numeroAsiento}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{fila.asientos[4].numeroAsiento}"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Opciones">
+                                <p:rowEditor/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+
+
+
+
+                </p:panel>
+                </h:form>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

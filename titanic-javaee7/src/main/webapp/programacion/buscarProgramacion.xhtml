@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Buscar Programacion"
+                                             action="#{programacionBean.buscarProgramacionesFiltradas}"
+                                             update="programacionesTable"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Nueva Programación" outcome="/programacion/registrarProgramacion"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Busqueda clientes</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="formBusqueda">
+
+                        <p:messages autoUpdate="true" closable="true"/>
+
+
+                        <div class="Separator"></div>
+
+
+                        <p:panelGrid columns="2" id="panelForm"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid"
+                                     styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Fecha Programacion" for="fechaProgramacion"/>
+                            <p:calendar id="fechaProgramacion" value="#{programacionBean.filtros.fechaProgramacion}"
+                                        showOn="button"
+                            />
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+                </p:panel>
+
+
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Programaciones Encontradas</div>
+                    <div class="Separator"></div>
+
+
+                    <p:dataTable id="programacionesTable"
+                                 value="#{programacionBean.programacionesFiltradas}" var="programacion"
+                                 style="margin-top:20px"
+                                 emptyMessage="No se encontraron programaciones para su busqueda" rows="20"
+                                 paginator="true" paginatorAlwaysVisible="false"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Id" style="text-align:center;width:100px">
+                            <h:outputLabel value="#{programacion.ideProgramacion}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha Programacion">
+                            <h:outputLabel value="#{programacion.fechaSalida}"/>
+                        </p:column>
+
+                        <p:column headerText="Ruta" style="text-align:center;width:150px">
+                            <h:outputLabel value="#{programacion.ruta.ruta}"/>
+                        </p:column>
+
+                        <p:column headerText="Bus" style="text-align:center;width:150px">
+                            <h:outputLabel value="#{programacion.bus.descripcionBus}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha Salida">
+                            <h:outputLabel value="#{programacion.fechaSalida}">
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+                            </h:outputLabel>
+                        </p:column>
+
+
+                        <p:column headerText="Fecha Est. Llegada">
+                            <h:outputLabel value="#{programacion.fechaEstLlegada}">
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+                            </h:outputLabel>
+                        </p:column>
+
+                        <p:column style="text-align:center;width:100px">
+                            <p:button title="Editar" icon="ui-icon-pencil"
+                                      outcome="/programacion/registrarProgramacion">
+                                <f:param name="programacion" value="#{programacion.ideProgramacion}"/>
+                            </p:button>
+
+                            <p:commandButton icon="ui-icon-trash" action="#{programacionBean.eliminarProgramacion}"
+                                             update="programacionesTable">
+                                <p:confirm header="Eliminar Programacion"
+                                           message="Esta seguro de eliminar la programación"
+                                           icon="ui-icon-alert"/>
+                                <f:setPropertyActionListener
+                                        target="#{programacionBean.programacionSeleccionada}" value="#{programacion}"/>
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

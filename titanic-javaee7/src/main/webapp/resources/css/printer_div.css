@@ -1,0 +1,24 @@
+@page { size: A4 landscape; }
+body,input {
+    /*font-family: "Courier Final Draft", Courier New;*/
+    font-family: Arial, Helvetica, sans-serif;
+    font-size : 9pt;
+    float: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    background: #fff;
+}
+div.tabla{
+	clear: none;
+	overflow: auto;
+}
+
+div.fila{
+	clear: both;
+}
+
+div.col{
+	float: left;
+}

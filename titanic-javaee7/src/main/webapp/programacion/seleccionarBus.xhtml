@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Bus</title>
+    <style type="text/css">
+        .ui-widget {
+            font-size: 80%;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:dataTable var="bus" value="#{busBean.busesFiltrados}">
+            <p:column headerText="Id">
+                <h:outputText value="#{bus.ideBus}" />
+            </p:column>
+
+            <p:column headerText="Nombre Bus">
+                <h:outputText value="#{bus.descripcionBus}" />
+            </p:column>
+
+            <p:column headerText="Placa">
+                <h:outputText value="#{bus.placa}" />
+            </p:column>
+
+            <p:column headerText="Numero Plantas">
+                <h:outputText value="#{bus.tipoPlanta.descripcion}" />
+            </p:column>
+
+            <p:column headerText="Seleccione Bus">
+                <p:commandButton icon="ui-icon-search" actionListener="#{busBean.selectBusFromDialog(bus)}" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+
+</html>

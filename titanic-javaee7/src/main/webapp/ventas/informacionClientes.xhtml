@@ -1,0 +1,211 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/template.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="programacion"
+				value="#{informacionClientesBean.programacion}" />
+		</f:metadata>
+
+		<p:growl id="msgs" widgetVar="wmsg" showDetail="true" />
+
+		<div class="ContainerIndent">
+			<p:panel header="Venta de Asientos">
+				<h:form id="form">
+					<div class="ContainerIndent">
+
+						<h3 class="hardblue">Programación</h3>
+						<p:panelGrid columns="2" layout="grid">
+							<h:outputText value="Ruta" />
+							<h:outputText
+								value="#{seleccionarAsientosBean.programacion.ruta.ruta}" />
+
+							<h:outputText value="Bus" />
+							<h:outputText
+								value="#{seleccionarAsientosBean.programacion.bus.descripcionBus}" />
+
+							<h:outputText value="Fecha y Hora Salida" />
+							<h:outputText
+								value="#{seleccionarAsientosBean.programacion.fechaSalida}" />
+
+							<h:outputText value="Fecha y Hora Llegada" />
+							<h:outputText
+								value="#{seleccionarAsientosBean.programacion.fechaEstLlegada}" />
+						</p:panelGrid>
+
+
+						<h3 class="hardblue">Acciones</h3>
+
+
+						<p:button value="Otra Programación"
+							outcome="/ventas/seleccionarBus" type="button" />
+						<p:button value="Reservar Asientos"
+							outcome="/ventas/seleccionarAsientos" type="button">
+							<f:param name="programacion"
+								value="#{informacionClientesBean.programacion.ideProgramacion}" />
+						</p:button>
+						<p:commandButton value="Confirmar Venta"
+							action="#{informacionClientesBean.registrarVentaConCliente}"
+							update="@form" />
+
+
+						<h3 class="hardblue">Asientos Reservados</h3>
+
+						<p:panelGrid header="Confirmacion de Pasaje"
+							id="panelInformacionClientes">
+							<p:row>
+								<p:column>Asiento(*)</p:column>
+								<p:column>DNI(*)</p:column>
+								<p:column>Precio(*)</p:column>
+								<p:column>Nombre(*)</p:column>
+								<p:column>Sexo(*)</p:column>
+								<p:column>Teléfono</p:column>
+								<p:column>Carta Notarial(*)</p:column>
+							</p:row>
+
+
+							<c:forEach items="#{informacionClientesBean.boletosReservados}"
+								var="boletoReservado" varStatus="status">
+
+								<p:row>
+
+									<p:column>
+										<p:outputLabel value="#{boletoReservado.numeroBoleto}" />
+									</p:column>
+									<p:column>
+										<p:autoComplete id="dnis_#{status.count}"
+											value="#{boletoReservado.cliente.numeroDocumento}"
+											completeMethod="#{informacionClientesBean.completeClientes}"
+											maxlength="8" size="10">
+											<p:ajax event="itemSelect"
+												listener="#{informacionClientesBean.setearCliente(boletoReservado)}"
+												update="form" />
+										</p:autoComplete>
+
+									</p:column>
+
+									<p:column>
+										<p:inputText id="precios_#{status.count}"
+											value="#{boletoReservado.precio}" size="10" />
+									</p:column>
+
+									<p:column>
+										<p:inputText id="nombress_#{status.count}"
+											value="#{boletoReservado.cliente.nombreCliente}"
+											maxlength="255" size="30" />
+									</p:column>
+
+									<p:column>
+										<p:selectOneRadio id="sexos_#{status.count}"
+											value="#{boletoReservado.cliente.sexo}">
+											<f:selectItems value="#{informacionClientesBean.sexo}"
+												var="sexo" itemValue="#{sexo}"
+												itemLabel="#{sexo.descripcion}" />
+
+										</p:selectOneRadio>
+									</p:column>
+
+									<p:column>
+										<p:inputText id="telefonos_#{status.count}"
+											value="#{boletoReservado.cliente.numeroTelefono}" size="10" />
+									</p:column>
+
+
+									<p:column>
+										<p:selectBooleanCheckbox
+											value="#{boletoReservado.presentoCartaNotarial}" />
+										<h:outputText value="Si" />
+									</p:column>
+
+								</p:row>
+
+
+							</c:forEach>
+
+
+						</p:panelGrid>
+
+
+						<h3 class="hardblue">Asientos Vendidos</h3>
+
+						<p:dataTable id="boletosVendidosTable"
+							value="#{informacionClientesBean.boletosPagados}"
+							var="boletoVendido" style="margin-top:20px"
+							emptyMessage="No hay boletos vendidos" rows="20">
+
+							<p:column headerText="Numero Asiento"
+								style="text-align:center;width:50px">
+								<h:outputLabel value="#{boletoVendido.numeroBoleto}" />
+							</p:column>
+
+
+							<p:column headerText="Cliente">
+								<h:outputLabel value="#{boletoVendido.cliente.nombreCliente}" />
+							</p:column>
+
+							<p:column headerText="Nro. Documento"
+								style="text-align:center;width:100px">
+								<h:outputLabel value="#{boletoVendido.cliente.numeroDocumento}" />
+							</p:column>
+
+							<p:column headerText="Sexo" style="text-align:center;width:100px">
+								<h:outputLabel value="#{boletoVendido.cliente.sexo}" />
+							</p:column>
+
+
+							<p:column headerText="Telefono"
+								style="text-align:center;width:100px">
+								<h:outputLabel value="#{boletoVendido.cliente.numeroTelefono}" />
+							</p:column>
+
+							<p:column headerText="Nro. Boleto"
+								style="text-align:center;width:100px">
+								<h:outputLabel value="#{boletoVendido.numeroDocumento}" />
+							</p:column>
+
+
+							<p:column headerText="Vendedor">
+								<h:outputLabel value="#{boletoVendido.usuario.nombreUsuario}" />
+							</p:column>
+
+
+							<p:column style="text-align:center;width:100px">
+
+
+
+								<p:button value="Imprimir"
+									onclick="window.open('boleto.xhtml?boleto=#{boletoVendido.ideBoleto}'); return false;" />
+
+
+
+
+
+							</p:column>
+
+						</p:dataTable>
+
+						<p:confirmDialog global="true">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
+
+					</div>
+				</h:form>
+			</p:panel>
+		</div>
+
+
+	</ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,454 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:panelGrid columns="4"
+                                 columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 style="border:0px none; background-color:transparent;">
+
+
+                        <p:commandButton value="Grabar Hoja de Ruta"
+                                         action="#{registroHojaRutaBean.registrarHojaRuta}"
+                                         disabled="#{!(registroHojaRutaBean.hojaRuta.estadoHojaRuta=='NUEVA')}"/>
+
+
+                        <p:commandButton value="Sincronizar"
+                                         action="#{registroHojaRutaBean.sincronizarHojaRuta}"
+                                         disabled="#{!(registroHojaRutaBean.hojaRuta.estadoHojaRuta=='NUEVA')}"/>
+
+
+                        <p:button value="Buscar Hoja Ruta" outcome="/hojaruta/buscarHojaRuta"/>
+
+
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                    </p:panelGrid>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="hojaruta" value="#{registroHojaRutaBean.hojaRuta}"/>
+            <f:event listener="#{registroHojaRutaBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Viaje
+                    </div>
+
+
+                    <div class="Separator"></div>
+
+                    <h:form id="FrmViajes">
+
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <p:dataTable id="programacionesTable"
+                                     value="#{registroHojaRutaBean.programaciones}" var="programacion"
+                                     style="margin-top:20px"
+                                     emptyMessage="No se encontraron programaciones para su busqueda" rows="20"
+                                     selectionMode="single"
+                                     selection="#{registroHojaRutaBean.programacionSeleccionada}"
+                                     rowKey="#{programacion.ideProgramacion}">
+
+
+                            <p:ajax event="rowSelect" listener="#{registroHojaRutaBean.onRowSelect}"
+                                    update=":FrmViajes:msgs"/>
+                            <p:ajax event="rowUnselect" listener="#{registroHojaRutaBean.onRowUnselect}"
+                                    update=":FrmViajes:msgs"/>
+
+                            <p:column headerText="Id" style="text-align:center;width:100px">
+                                <h:outputLabel value="#{programacion.ideProgramacion}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Ruta" style="text-align:center;width:150px">
+                                <h:outputLabel value="#{programacion.ruta.ruta}"/>
+                            </p:column>
+
+                            <p:column headerText="Bus" style="text-align:center;width:150px">
+                                <h:outputLabel value="#{programacion.bus.descripcionBus}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha Salida">
+                                <h:outputLabel value="#{programacion.fechaSalida}">
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+                                </h:outputLabel>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha Est. Llegada">
+                                <h:outputLabel value="#{programacion.fechaEstLlegada}">
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+                                </h:outputLabel>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel id="panelConductores">
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Conductores
+                    </div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="FrmConductor">
+
+                        <p:messages autoUpdate="true"/>
+
+                        <p:panelGrid columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-2"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Tipo Documento" for="tipoDocumento"/>
+                            <p:selectOneMenu id="tipoDocumento"
+                                             value="#{registroHojaRutaBean.hConductor.tipoDocumento}">
+
+                                <f:selectItems value="#{registroHojaRutaBean.tiposDocumento}" var="tipoDocumento"
+                                               itemValue="#{tipoDocumento}"
+                                               itemLabel="#{tipoDocumento.descripcion}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+                            <p:outputLabel value="Nro. Documento"/>
+                            <p:inputText value="#{registroHojaRutaBean.hConductor.nroDocumento}"/>
+
+                            <p:commandButton value="Buscar" action="#{registroHojaRutaBean.buscarConductor}"
+                                             update="FrmConductor"/>
+                            <p:commandButton value="Limpiar" action="#{registroHojaRutaBean.limpiarConductor}"
+                                             update="FrmConductor"/>
+
+                            <p:outputLabel value="Conductor"/>
+                            <p:inputText value="#{registroHojaRutaBean.hConductor.nombreConductor}"/>
+
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Nro. Licencia"/>
+                            <p:inputText value="#{registroHojaRutaBean.hConductor.nroLicencia}"/>
+
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+
+                            <p:outputLabel value="Fecha y Hora Inicio" for="fechaInicio"/>
+                            <p:calendar id="fechaInicio" value="#{registroHojaRutaBean.hConductor.fechaInicio}"
+                                        showOn="button" pattern="dd/MM/yyyy HH:mm"
+                            />
+
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Fecha y Hora Termino" for="fechaTermino"/>
+                            <p:calendar id="fechaTermino" value="#{registroHojaRutaBean.hConductor.fechaTermino}"
+                                        showOn="button" pattern="dd/MM/yyyy HH:mm"
+                            />
+
+                            <p:commandButton value="Agregar" action="#{registroHojaRutaBean.agregarConductor}"
+                                             update="panelConductores"/>
+                            <p:outputLabel value=""/>
+
+                        </p:panelGrid>
+
+
+                        <div class="Separator"></div>
+
+                        <p:dataTable id="conductores" var="conductor"
+                                     value="#{registroHojaRutaBean.hojaRuta.conductores}"
+                                     reflow="true"
+                                     rows="20"
+                                     editable="true"
+
+                        >
+
+                            <p:ajax event="rowEdit" listener="#{registroHojaRutaBean.onEdit}" update="conductores"/>
+                            <p:ajax event="rowEditCancel" listener="#{registroHojaRutaBean.onCancel}"
+                                    update="conductores"/>
+
+
+                            <p:column headerText="Turno">
+                                <h:outputLabel value="#{conductor.turno}"/>
+                            </p:column>
+
+                            <p:column headerText="Nro. Documento">
+                                <h:outputLabel value="#{conductor.nroDocumento}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombres">
+                                <h:outputLabel value="#{conductor.nombreConductor}"/>
+                            </p:column>
+
+                            <p:column headerText="Nro. Licencia">
+                                <h:outputLabel value="#{conductor.nroLicencia}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha Inicio" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{conductor.fechaInicio}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputLabel>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:calendar id="fechaInicioConductor"
+                                                    value="#{conductor.fechaInicio}"
+                                                    showOn="button" pattern="dd/MM/yyyy HH:mm"
+                                        />
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Fecha Termino" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{conductor.fechaTermino}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputLabel>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:calendar id="fechaTerminoConductor"
+                                                    value="#{conductor.fechaTermino}"
+                                                    showOn="button" pattern="dd/MM/yyyy HH:mm"
+                                        />
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Opciones">
+                                <p:rowEditor/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                    </h:form>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel id="panelTripulantes">
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Tripulantes
+                    </div>
+                    <div class="Separator"></div>
+
+                    <h:form id="FrmTripulante">
+
+                        <p:messages autoUpdate="true"/>
+
+
+                        <p:panelGrid columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-2"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+
+                            <p:outputLabel value="Tipo Documento" for="tipoDocumentoTripulante"/>
+                            <p:selectOneMenu id="tipoDocumentoTripulante"
+                                             value="#{registroHojaRutaBean.tripulante.tipoDocumento}">
+
+                                <f:selectItems value="#{registroHojaRutaBean.tiposDocumento}" var="tipoDocumento"
+                                               itemValue="#{tipoDocumento}"
+                                               itemLabel="#{tipoDocumento.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+                            <p:outputLabel value="Nro. Documento"/>
+                            <p:inputText value="#{registroHojaRutaBean.tripulante.nroDocumento}"/>
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Nombres"/>
+                            <p:inputText value="#{registroHojaRutaBean.tripulante.nombres}"/>
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Apellidos"/>
+                            <p:inputText value="#{registroHojaRutaBean.tripulante.apellidos}"/>
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Sexo"/>
+                            <p:selectOneRadio id="sexo" layout="responsive" columns="2"
+                                              value="#{registroHojaRutaBean.tripulante.sexo}">
+                                <f:selectItems value="#{registroHojaRutaBean.sexo}" var="sexo"
+                                               itemValue="#{sexo}"
+                                               itemLabel="#{sexo.descripcion}"/>
+
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value=""/> <p:outputLabel value=""/>
+
+
+                            <p:outputLabel value="Fecha Nacimiento" for="fechaNacimiento"/>
+                            <p:calendar id="fechaNacimiento" value="#{registroHojaRutaBean.tripulante.fechaNacimiento}"
+                                        showOn="button"
+                            />
+
+                            <p:commandButton value="Agregar" action="#{registroHojaRutaBean.agregarTripulante}"
+                                             update="panelTripulantes"/>
+                            <p:commandButton value="Limpiar" action="#{registroHojaRutaBean.limpiarTripulante}"
+                                             update="panelTripulantes"/>
+
+
+                        </p:panelGrid>
+
+
+                        <div class="Separator"></div>
+
+
+                        <p:dataTable id="tripulantes" var="tripulante"
+                                     value="#{registroHojaRutaBean.hojaRuta.tripulantes}"
+                                     reflow="true"
+                                     rows="20"
+                                     editable="true"
+
+                        >
+
+
+                            <p:ajax event="rowEdit" listener="#{registroHojaRutaBean.onEditTripulante}"
+                                    update="tripulantes"/>
+                            <p:ajax event="rowEditCancel" listener="#{registroHojaRutaBean.onCancelTripulante}"
+                                    update="tripulantes"/>
+
+
+                            <p:column headerText="Nro. Documento" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{tripulante.nroDocumento}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{registroHojaRutaBean.tripulante.nroDocumento}"/>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Nombres" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{tripulante.nombres}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{registroHojaRutaBean.tripulante.nombres}"/>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Apellidos" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{tripulante.apellidos}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{registroHojaRutaBean.tripulante.apellidos}"/>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Sexo" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{tripulante.sexo}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="sexoTripulante"
+                                                         value="#{registroHojaRutaBean.tripulante.sexo}">
+                                            <f:selectItems value="#{registroHojaRutaBean.sexo}" var="sexo"
+                                                           itemValue="#{sexo}"
+                                                           itemLabel="#{sexo.descripcion}"/>
+
+                                        </p:selectOneMenu>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha Nacimiento" style="text-align: center;">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputLabel value="#{tripulante.fechaNacimiento}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputLabel>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:calendar id="fechaNacimientoTripulante"
+                                                    value="#{tripulante.fechaNacimiento}"
+                                                    showOn="button" pattern="dd/MM/yyyy HH:mm"
+                                        />
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Opciones">
+                                <p:rowEditor/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                    </h:form>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+</ui:composition>

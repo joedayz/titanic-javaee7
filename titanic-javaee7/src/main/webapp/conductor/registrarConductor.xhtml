@@ -1,0 +1,181 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Conductor"
+                                             action="#{registroConductorBean.registrarConductor}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Conductor" outcome="/conductor/buscarConductor"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="conductor" value="#{registroConductorBean.conductor}"/>
+            <f:event listener="#{registroConductorBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+
+        <h:form>
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroConductorBean.editando ? 'Editando Conductor' :
+                            'Registrar Nuevo Conductor'}</div>
+                    <div class="Separator"></div>
+
+
+
+
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText id="nombre"  maxlength="255"
+                                         value="#{registroConductorBean.conductor.nombreConductor}" />
+
+                            <p:outputLabel value="Número Documento" for="numdoc" />
+                            <p:inputText id="numdoc" maxlength="11"
+                                         value="#{registroConductorBean.conductor.numeroDocumento}" />
+
+                            <p:outputLabel value="Fecha Nacimiento" for="fechaNacimiento" />
+                            <p:calendar id="fechaNacimiento" value="#{registroConductorBean.conductor.fechaNacimiento}"
+                                        showOn="button"
+                            />
+
+                            <p:outputLabel value="Sexo" for="sexo" />
+                            <p:selectOneRadio id="sexo" layout="responsive"  columns="2"
+                                              value="#{registroConductorBean.conductor.sexo}">
+                                <f:selectItems value="#{registroConductorBean.sexo}" var="sexo"
+                                               itemValue="#{sexo}"
+                                               itemLabel="#{sexo.descripcion}"/>
+
+                            </p:selectOneRadio>
+
+
+                        </p:panelGrid>
+
+
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Licencia</div>
+                    <div class="Separator"></div>
+
+
+
+
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel value="Numero Licencia" for="numeroLicencia" />
+                            <p:inputText id="numeroLicencia"  maxlength="255"
+                                         value="#{registroConductorBean.conductor.numeroLicencia}" />
+
+                            <p:outputLabel value="Fecha Expedición" for="fechaExpedicion" />
+                            <p:calendar id="fechaExpedicion" value="#{registroConductorBean.conductor.fechaExpedicion}"
+                                        showOn="button"
+                            />
+
+                            <p:outputLabel value="Fecha Revalidación" for="fechaRevalidacion" />
+                            <p:calendar id="fechaRevalidacion" value="#{registroConductorBean.conductor.fechaRevalidacion}"
+                                        showOn="button"
+                            />
+
+                            <p:outputLabel value="Vigente?: "/>
+                            <p:selectBooleanCheckbox
+                                    value="#{registroConductorBean.conductor.estado}">
+                            </p:selectBooleanCheckbox>
+
+                        </p:panelGrid>
+
+
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">Certificación</div>
+                    <div class="Separator"></div>
+
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel value="Entidad" for="entidad" />
+                            <p:inputText id="entidad"  maxlength="255"
+                                         value="#{registroConductorBean.conductor.entidad}" />
+
+                            <p:outputLabel value="Localidad" for="localidad" />
+                            <p:inputText id="localidad"  maxlength="255"
+                                         value="#{registroConductorBean.conductor.localidad}" />
+
+                            <p:outputLabel value="Número Certificado" for="numeroCertificado" />
+                            <p:inputText id="numeroCertificado"  maxlength="255"
+                                         value="#{registroConductorBean.conductor.numeroCertificado}" />
+
+
+                            <p:outputLabel value="Fecha Caducidad" for="fechaCaducidad" />
+                            <p:calendar id="fechaCaducidad" value="#{registroConductorBean.conductor.fechaCaducidad}"
+                                        showOn="button"
+                            />
+
+                            <p:outputLabel value="Vigente?: "/>
+                            <p:selectBooleanCheckbox
+                                    value="#{registroConductorBean.conductor.estadoCapacitacion}">
+                            </p:selectBooleanCheckbox>
+
+                        </p:panelGrid>
+
+
+
+
+                </p:panel>
+            </div>
+        </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

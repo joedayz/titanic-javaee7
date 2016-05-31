@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Cliente"
+                                             action="#{registroClienteBean.registrarCliente}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Cliente" outcome="/cliente/buscarCliente"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="cliente" value="#{registroClienteBean.cliente}"/>
+            <f:event listener="#{registroClienteBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroClienteBean.editando ? 'Editando Cliente' :
+                            'Registrar Nuevo Cliente'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form>
+
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText id="nombre"  maxlength="255"
+                                         value="#{registroClienteBean.cliente.nombreCliente}" />
+
+                            <p:outputLabel value="Tipo Cliente" for="tipoPersona" />
+                            <p:selectOneRadio id="tipoPersona" layout="responsive" columns="2"
+                                              value="#{registroClienteBean.cliente.tipoPersona}">
+                                <f:selectItems value="#{registroClienteBean.tiposPersona}" var="tipoPersona"
+                                               itemValue="#{tipoPersona}"
+                                               itemLabel="#{tipoPersona.descripcion}"/>
+                            </p:selectOneRadio>
+
+
+                            <p:outputLabel value="Tipo Documento" for="tipoDocumento" />
+                            <p:selectOneMenu id="tipoDocumento"
+                                                value="#{registroClienteBean.cliente.tipoDocumento}">
+                                <f:selectItems value="#{registroClienteBean.tiposDocumento}" var="tipoDocumento"
+                                               itemValue="#{tipoDocumento}"
+                                               itemLabel="#{tipoDocumento.descripcion}"/>
+
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Número Documento" for="numdoc" />
+                            <p:inputMask mask="99999999" id="numdoc" maxlength="8"
+                                         value="#{registroClienteBean.cliente.numeroDocumento}" />
+
+
+                            <p:outputLabel value="E-mail" for="email" />
+                            <p:inputText id="email"  maxlength="100"
+                                         value="#{registroClienteBean.cliente.email}" />
+
+                            <p:outputLabel value="Sexo" for="sexo" />
+                            <p:selectOneRadio id="sexo" layout="responsive"  columns="2"
+                                              value="#{registroClienteBean.cliente.sexo}">
+                                <f:selectItems value="#{registroClienteBean.sexo}" var="sexo"
+                                               itemValue="#{sexo}"
+                                               itemLabel="#{sexo.descripcion}"/>
+
+                            </p:selectOneRadio>
+
+
+                            <p:outputLabel value="Teléfono" for="telefono" />
+                            <p:inputText id="telefono"  maxlength="100"
+                                         value="#{registroClienteBean.cliente.numeroTelefono}" />
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

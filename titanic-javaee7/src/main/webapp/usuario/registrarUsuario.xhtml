@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Usuario"
+                                             action="#{registroUsuarioBean.registrarUsuario}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Usuario" outcome="/usuario/buscarUsuario"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="usuario" value="#{registroUsuarioBean.usuario}"/>
+            <f:event listener="#{registroUsuarioBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroUsuarioBean.editando ? 'Editando Usuario' :
+                            'Registrar Nuevo Usuario'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form id="formRegistro">
+
+                        <p:growl id="msg"/>
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-panelgrid-blank"
+                                     style="border:0px none; background-color:transparent;">
+                            <p:outputLabel value="Nombre" for="nombre"/>
+                            <p:inputText id="nombre" maxlength="255"
+                                         value="#{registroUsuarioBean.usuario.nombreUsuario}"/>
+
+                            <p:outputLabel value="Dni" for="dni"/>
+                            <p:inputText id="dni" maxlength="10"
+                                         value="#{registroUsuarioBean.usuario.dni}"/>
+
+
+                            <p:outputLabel value="E-mail" for="email"/>
+                            <p:inputText id="email" maxlength="100"
+                                         value="#{registroUsuarioBean.usuario.email}"
+                                         readonly="#{registroUsuarioBean.editando}"/>
+
+                            <p:outputLabel value="Password" for="pwd"/>
+                            <p:password id="pwd" maxlength="40"
+                                        value="#{registroUsuarioBean.usuario.password}" redisplay="true"/>
+
+                            <p:outputLabel value="Sexo" for="sexo"/>
+                            <p:selectOneMenu id="sexo" value="#{registroUsuarioBean.usuario.sexo}"
+                            >
+                                <f:selectItem itemLabel="MASCULINO" itemValue="MASCULINO"/>
+                                <f:selectItem itemLabel="FEMENINO" itemValue="FEMENINO"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Color" for="colorPopup"/>
+
+                            <p:selectOneMenu id="colorPopup"
+                                             value="#{registroUsuarioBean.usuario.colorPopup}" >
+                                <f:selectItem itemLabel="Verde" itemValue="GreenButton"/>
+                                <f:selectItem itemLabel="Rojo" itemValue="RedButton"/>
+                                <f:selectItem itemLabel="Anaranjado" itemValue="OrangeButton"/>
+                                <f:selectItem itemLabel="Morado" itemValue="PurpleButton"/>
+                                <f:selectItem itemLabel="Cyan" itemValue="CyanButton"/>
+                                <f:selectItem itemLabel="Marron" itemValue="BrownButton"/>
+                                <f:selectItem itemLabel="Plomo" itemValue="GrayButton"/>
+                            </p:selectOneMenu>
+
+
+
+                            <p:outputLabel value="Grupo"/>
+                            <p:selectOneMenu id="grupo" value="#{registroUsuarioBean.grupo}"
+                                             >
+                                <f:selectItems value="#{registroUsuarioBean.grupos}" var="grupo"
+                                               itemValue="#{grupo}" itemLabel="#{grupo.nombreGrupo}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value=""/>
+                            <p:commandButton value="Agregar Grupo" id="btnAgregarGrupo"
+                                             action="#{registroUsuarioBean.agregarGrupo}" update="grupoTable"/>
+
+
+                            <p:outputLabel value="Activo?: "/>
+                            <p:selectBooleanCheckbox
+                                    value="#{registroUsuarioBean.usuario.activo}">
+                                <p:ajax listener="#{registroUsuarioBean.addMessage}" update="msg"/>
+                            </p:selectBooleanCheckbox>
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue" style="margin: 15px 10px">Grupos al que pertenece</div>
+                    <div class="Separator"></div>
+
+
+                    <p:dataTable id="grupoTable" var="grupo" value="#{registroUsuarioBean.usuario.grupos}"
+                                 reflow="true"
+                                 emptyMessage="No se encontraron Grupos asignados" rows="20"
+                                 paginator="true" paginatorAlwaysVisible="false"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Nombre">
+                            <h:outputLabel value="#{grupo.nombreGrupo}" />
+                        </p:column>
+
+                        <p:column style="text-align:center;width:100px">
+                            <p:commandButton title="Eliminar" icon="ui-icon-trash"
+                                             action="#{registroUsuarioBean.eliminarGrupo}" update="grupoTable" >
+
+                                <p:confirm header="Eliminar Grupo"
+                                           message="Esta seguro de eliminar el grupo"
+                                           icon="ui-icon-alert"/>
+                                <f:setPropertyActionListener
+                                        target="#{registroUsuarioBean.grupo}" value="#{grupo}"/>
+                             </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

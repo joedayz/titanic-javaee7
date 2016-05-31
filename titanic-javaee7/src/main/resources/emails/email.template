@@ -1,0 +1,39 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">N&uacute;mero Pedido:</td>
+                <td>$pedido.idPedido</td>
+            </tr>
+            <tr>
+                <td>Cliente:</td>
+                <td>$pedido.cliente.nombreCliente</td>
+            </tr>
+            <tr>
+                <td>Valor total:</td>
+                <td>$numberTool.format("¤ #0.00", $pedido.valorTotal, $locale)</td>
+            </tr>
+        </table>
+        
+        <br/>
+        <table border="1" cellspacing="0" cellpadding="3">
+            <tr>
+                <th>Producto</th>
+                <th>Valor Unitario</th>
+                <th>Cantidad</th>
+                <th>Valor total</th>
+            </tr>
+           
+            #foreach ($item in $pedido.itens)
+            	#if ($item.producto.ideProducto)
+	            <tr>
+	                <td>$item.producto.nombreProducto</td>
+	                <td>$numberTool.format("¤ #0.00", $item.producto.valorUnitario, $locale)</td>
+	                <td>$item.cantidad</td>
+	                <td>$numberTool.format("¤ #0.00", $item.valorTotal, $locale)</td>
+	            </tr>
+	            #end
+            #end
+        </table>
+    </body>
+</html>

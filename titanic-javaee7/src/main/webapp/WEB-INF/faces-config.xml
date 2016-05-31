@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+	http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+
+    <application>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+        <message-bundle>com.titanic.ventapasajes.Messages</message-bundle>
+        <message-bundle>resources.application</message-bundle>
+
+        <locale-config>
+            <default-locale>es_PE</default-locale>
+        </locale-config>
+        <locale-config>
+        	<default-locale>en</default-locale>
+        </locale-config>
+    </application>
+
+    <factory>
+        <exception-handler-factory>
+            com.titanic.ventapasajes.util.excepciones.JsfHandlerExceptionFactory
+        </exception-handler-factory>
+    </factory>
+
+    <converter>
+        <converter-for-class>java.lang.Enum</converter-for-class>
+        <converter-class>javax.faces.convert.EnumConverter</converter-class>
+    </converter>
+
+
+    <component>
+        <component-type>org.primefaces.component.SentinelMenu</component-type>
+        <component-class>org.primefaces.sentinel.component.menu.SentinelMenu</component-class>
+    </component>
+
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.SentinelMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.sentinel.component.menu.SentinelMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
+
+</faces-config>

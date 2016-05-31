@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <p:panel>
+
+                    <p:toolbar style="margin-top:20px">
+                        <f:facet name="left">
+                            <p:commandButton value="Grabar Terminal"
+                                             action="#{registroTerminalBean.registrarTerminal}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:button value="Buscar Terminal" outcome="/terminal/buscarTerminal"/>
+                        </f:facet>
+                    </p:toolbar>
+
+                </p:panel>
+            </div>
+        </div>
+
+        <f:metadata>
+            <o:viewParam name="terminal" value="#{registroTerminalBean.terminal}"/>
+            <f:event listener="#{registroTerminalBean.inicializar}"
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+
+                <p:panel>
+                    <div class="FontBold Fs18 hardblue"
+                         style="margin: 15px 10px">#{registroTerminalBean.editando ? 'Editando Terminal' :
+                            'Registrar Nueva Terminal'}</div>
+                    <div class="Separator"></div>
+
+
+                    <h:form>
+
+                        <p:growl id="msg"/>
+                        <p:messages autoUpdate="true"/>
+
+                        <div class="Separator"></div>
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+
+
+                            <p:outputLabel value="Terminal Registrada" for="terminal" />
+                            <p:selectOneMenu id="terminal"
+                                             value="#{registroTerminalBean.terminal.nombreTerminal}">
+                                <f:selectItems value="#{registroTerminalBean.terminales}" var="terminal"
+                                               itemValue="#{terminal.code.concat('|').concat(terminal.info)}"
+                                               itemLabel="#{terminal.info}"/>
+
+                            </p:selectOneMenu>
+
+
+
+                            <p:outputLabel value="Direccion" for="direccion" />
+                            <p:inputTextarea id="direccion"  maxlength="255"
+                                         value="#{registroTerminalBean.terminal.direccionTerminal}" />
+
+
+                            <p:outputLabel value="Telefonos" for="telefonos" />
+                            <p:inputText id="telefonos"  maxlength="50"
+                                         value="#{registroTerminalBean.terminal.telefonosTerminal}" />
+
+
+
+                        </p:panelGrid>
+
+
+                    </h:form>
+
+                </p:panel>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>

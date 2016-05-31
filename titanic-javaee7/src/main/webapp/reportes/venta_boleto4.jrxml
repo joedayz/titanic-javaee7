@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="venta_boleto4" pageWidth="439" pageHeight="218" orientation="Landscape" columnWidth="327" leftMargin="56" rightMargin="56" topMargin="56" bottomMargin="56" uuid="90619866-2a41-4d79-a313-ead0107a97fe">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="RUC" class="java.lang.String"/>
+	<field name="USUARIO" class="java.lang.String"/>
+	<field name="PASAJERO" class="java.lang.String"/>
+	<field name="ASIENTO" class="java.lang.String"/>
+	<field name="PASAJERO2" class="java.lang.String"/>
+	<field name="FECHA" class="java.lang.String"/>
+	<field name="DNI" class="java.lang.String"/>
+	<field name="VALOR_LETRAS" class="java.lang.String"/>
+	<field name="VALOR" class="java.math.BigDecimal"/>
+	<field name="DIA" class="java.lang.String"/>
+	<field name="MES" class="java.lang.String"/>
+	<field name="ANO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="178" splitType="Stretch">
+			<textField>
+				<reportElement x="205" y="12" width="113" height="20" uuid="38f49b0e-5834-49ab-b2ab-ae6cb78a6936"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RUC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="12" width="265" height="20" uuid="467d0a3f-ce8c-49f7-905a-7fab3656661a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{USUARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="32" width="265" height="20" uuid="8686dc4a-455b-4db8-a874-6bc369042302"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PASAJERO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="32" width="113" height="20" uuid="b9912e71-f110-497b-b528-b827a9ce5fdd"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ASIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="52" width="239" height="20" uuid="0b1533cd-8cd7-4137-91f6-d57130f4513d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PASAJERO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="92" width="222" height="20" uuid="f80eb374-e2cd-4c92-8f1a-bba8ef01a9a0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VALOR_LETRAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement x="218" y="112" width="100" height="20" uuid="fd26ef27-ab26-45c2-ad6e-f2a52597defc"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="195" y="138" width="37" height="20" uuid="676f9644-a95e-4b3e-8ff5-c2c7e0d16e5d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="238" y="138" width="37" height="20" uuid="57b07af0-8b74-4337-a5b9-6244b38e932e"/>
+				<textFieldExpression><![CDATA[$F{MES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="286" y="138" width="44" height="20" uuid="d5cdf18e-fd83-452d-ae46-5e7860be8134"/>
+				<textFieldExpression><![CDATA[$F{ANO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="175" y="72" width="100" height="20" uuid="13025735-c897-462c-887d-7c033ed6cbf7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DNI}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="72" width="100" height="20" uuid="27a68bff-a5a8-46d9-8714-dd837742a0b4"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

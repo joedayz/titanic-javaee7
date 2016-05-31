@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>PrimeFaces Sentinel</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+	<h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+	<h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+	<h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+</h:head>
+
+<h:body class="fontRegular red-back">
+
+	<div class="Container100 Top20Percent PosAbsolute MarAuto OvHidden">
+		<div class="Wid50 MarAuto OvHidden TexAlCenter">
+			<h:graphicImage name="images/error-face.svg" library="sentinel-layout" style="width: 100px;"/>
+			<div class="EmptyBox20"></div>
+			<span class="white Fs100 Wid100 DispBlock">Error</span>
+			<span class="white Wid100 DispBlock Fs24">Exception Occured!</span><br/>
+            <span class="white Wid100 DispBlock Fs12">Please contact system administrator.<br/>
+            </span>
+			<div class="EmptyBox20"></div>
+			<p:button value="Back to Dashboard" styleClass="Fs24" href="/dashboard.xhtml"></p:button>
+			<div class="EmptyBox50"></div>
+		</div>
+	</div>
+
+</h:body>
+
+</html>
